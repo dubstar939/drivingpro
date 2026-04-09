@@ -9,33 +9,65 @@
     <meta name="theme-color" content="#0a0a0f">
     <meta name="mobile-web-app-capable" content="yes">
     <style>
-        * {
+        /* CSS Variables */
+        :root {
+            --color-bg-primary: #0a0a0f;
+            --color-bg-secondary: #000000;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #aaaaaa;
+            --color-accent: #e8e8e8;
+            --color-accent-hover: #ffffff;
+            --color-game-dark: #1a1a2e;
+            --shadow-sm: 0 4px 15px rgba(255, 255, 255, 0.1);
+            --shadow-md: 0 6px 25px rgba(255, 255, 255, 0.2);
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-pill: 50px;
+            --transition-speed: 0.3s;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            --max-width-content: 800px;
+            --max-width-container: 1200px;
+            --max-width-frame: 1280px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --z-index-overlay: 1000;
+        }
+
+        /* Reset & Base Styles */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: #0a0a0f;
-            color: #fff;
+            font-family: var(--font-family);
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.6;
         }
 
+        /* Layout Components */
         .game-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            max-width: 1200px;
+            padding: var(--spacing-lg);
+            max-width: var(--max-width-container);
             margin: 0 auto;
             width: 100%;
         }
 
+        /* Splash Screen */
         .game-splash {
             display: flex;
             flex-direction: column;
@@ -45,40 +77,79 @@
             width: 100%;
         }
 
+        .game-splash--hidden {
+            display: none;
+        }
+
         .game-title {
             font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #fff;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-primary);
         }
 
-        .play-btn {
-            background: #e8e8e8;
-            color: #1a1a2e;
+        /* Buttons */
+        .btn {
             border: none;
-            padding: 1rem 3rem;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .btn--play {
+            background: var(--color-accent);
+            color: var(--color-game-dark);
+            padding: var(--spacing-md) var(--spacing-lg);
             font-size: 1.1rem;
             font-weight: 600;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-pill);
+            box-shadow: var(--shadow-sm);
         }
 
-        .play-btn:hover {
-            background: #fff;
+        .btn--play:hover,
+        .btn--play:focus {
+            background: var(--color-accent-hover);
             transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-md);
+            outline: none;
         }
 
+        .btn--fullscreen {
+            position: fixed;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-text-primary);
+            padding: 0.75rem;
+            border-radius: var(--border-radius-sm);
+            z-index: var(--z-index-overlay);
+            display: none;
+        }
+
+        .btn--fullscreen:hover,
+        .btn--fullscreen:focus {
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+        }
+
+        .btn--fullscreen svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
+
+        .btn--fullscreen--visible {
+            display: block;
+        }
+
+        /* Game Frame */
         .game-frame {
             display: none;
             width: 100%;
-            max-width: 1280px;
-            aspect-ratio: 16/9;
-            border-radius: 12px;
+            max-width: var(--max-width-frame);
+            aspect-ratio: 16 / 9;
+            border-radius: var(--border-radius-md);
             overflow: hidden;
-            background: #000;
+            background: var(--color-bg-secondary);
         }
 
         .game-frame iframe {
@@ -87,64 +158,132 @@
             border: none;
         }
 
-        .game-frame.active {
+        .game-frame--active {
             display: block;
         }
 
-        .game-splash.hidden {
-            display: none;
-        }
-
+        /* Content Sections */
         .content-section {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+            max-width: var(--max-width-content);
+            margin: var(--spacing-lg) auto;
+            padding: 0 var(--spacing-md);
             width: 100%;
         }
 
-        .fullscreen-btn {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            padding: 0.75rem;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 1000;
+        .content-block {
+            margin-top: var(--spacing-md);
+        }
+
+        .content-description {
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .content-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin: var(--spacing-lg) 0 var(--spacing-xs);
+        }
+
+        .content-heading--small {
+            font-size: 0.9rem;
+        }
+
+        .content-text {
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .feature-list li {
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-text-secondary);
+        }
+
+        /* Loading State */
+        .game-frame__loading {
             display: none;
+            width: 100%;
+            max-width: var(--max-width-frame);
+            aspect-ratio: 16 / 9;
+            border-radius: var(--border-radius-md);
+            background: var(--color-bg-secondary);
+            align-items: center;
+            justify-content: center;
         }
 
-        .fullscreen-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .game-frame__loading--active {
+            display: flex;
         }
 
-        .fullscreen-btn svg {
-            width: 20px;
-            height: 20px;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--color-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .game-title {
                 font-size: 1.5rem;
             }
 
-            .play-btn {
+            .btn--play {
                 padding: 0.875rem 2rem;
                 font-size: 1rem;
             }
 
             .content-section {
-                padding: 0 1rem;
+                padding: 0 var(--spacing-sm);
+            }
+
+            .game-container {
+                padding: var(--spacing-md);
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
 
 <body>
-    <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button class="btn btn--fullscreen" id="fullscreenBtn" onclick="toggleFullscreen()" aria-label="Toggle fullscreen mode" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
         </svg>
     </button>
@@ -152,64 +291,113 @@
     <div class="game-container">
         <div class="game-splash" id="gameSplash">
             <h1 class="game-title">Driving Pro</h1>
-            <button class="play-btn" onclick="loadGame()">Play Now</button>
+            <button class="btn btn--play" onclick="loadGame()" type="button">Play Now</button>
         </div>
 
-        <div class="game-frame" id="gameFrame">
-            <iframe id="gameIframe" src="" allowfullscreen></iframe>
+        <div class="game-frame__loading" id="gameLoading" aria-live="polite">
+            <div class="spinner" aria-hidden="true"></div>
+        </div>
+
+        <div class="game-frame" id="gameFrame" role="application" aria-label="Driving Pro Game">
+            <iframe id="gameIframe" src="" allowfullscreen title="Driving Pro Game"></iframe>
         </div>
     </div>
 
-    <div class="content-section">
+    <main class="content-section">
         <!-- Description -->
-        <div style="margin-top:1rem; color:#aaa; font-size:0.85rem; line-height:1.7;">
-            <p>Driving Pro is an open‑city sandbox built for players who want freedom, speed, and pure street‑level creativity. It blends exploration, stunt driving, mission‑based progression, and a living traffic ecosystem into one seamless experience. The focus is simple: go anywhere, drive anything, and carve your own path through a massive urban playground.
+        <section class="content-block" aria-labelledby="about-heading">
+            <p class="content-description">
+                Driving Pro is an open‑city sandbox built for players who want freedom, speed, and pure street‑level creativity. It blends exploration, stunt driving, mission‑based progression, and a living traffic ecosystem into one seamless experience. The focus is simple: go anywhere, drive anything, and carve your own path through a massive urban playground.
             </p>
-            <h2 style="font-size:1.1rem; font-weight:600; color:#fff; margin:1rem 0 0.5rem;">Play Driving Pro</h2>
-            <p>You start in a fully open metropolitan map—coastal highways, industrial zones, tight downtown grids, suburban loops, and hidden back‑alley shortcuts. Every district has its own driving personality, from wide‑open drift boulevards to dense traffic corridors that demand precision.
-            - Dynamic day/night cycle
-            - Traffic density that changes by neighborhood
-            - Weather that affects traction, braking, and handling
-            - Discoverable garages, shops, and challenge spots
-            .</p>
-        </div>
+            <h2 id="about-heading" class="content-heading">Play Driving Pro</h2>
+            <p class="content-text">
+                You start in a fully open metropolitan map—coastal highways, industrial zones, tight downtown grids, suburban loops, and hidden back‑alley shortcuts. Every district has its own driving personality, from wide‑open drift boulevards to dense traffic corridors that demand precision.
+            </p>
+            <ul class="feature-list">
+                <li>Dynamic day/night cycle</li>
+                <li>Traffic density that changes by neighborhood</li>
+                <li>Weather that affects traction, braking, and handling</li>
+                <li>Discoverable garages, shops, and challenge spots</li>
+            </ul>
+        </section>
 
         <!-- How to play -->
-        <div style="margin-top:1rem;">
-            <h2 style="font-size:0.9rem; font-weight:600; color:#fff;">
-                <strong style="font-size:1.1rem;">Driving Pro</strong>
+        <section class="content-block" aria-labelledby="controls-heading">
+            <h2 id="controls-heading" class="content-heading content-heading--small">
+                <strong>Driving Pro</strong> Controls
             </h2>
-            <p style="color:#aaa; font-size:0.85rem; margin-top:0.5rem; line-height:1.7;">
+            <p class="content-text">
                 You can control your car freely throughout the open‑world city using either the arrow keys or W‑A‑S‑D. Move the mouse to adjust the camera and get the perfect driving angle while performing stunts or navigating tight streets.
                 Your speedometer updates in real time, letting you track your current speed and push for top‑speed runs whenever the road opens up.
                 Press F to activate nitro boost. It delivers a huge burst of speed, but it also makes the car harder to control—using it in the wrong place can easily lead to a crash. Save nitro for long straights or critical moments where you need maximum acceleration.
                 Press B to check behind you at any time, giving you full awareness of traffic, rivals, or police while you drive.
             </p>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script>
-        function loadGame() {
-            const splash = document.getElementById('gameSplash');
-            const frame = document.getElementById('gameFrame');
-            const iframe = document.getElementById('gameIframe');
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
+        (function() {
+            'use strict';
 
-            iframe.src = 'https://gamebol.com/gamefile/Ultimate_Car_Driving/index.html';
-            frame.classList.add('active');
-            splash.classList.add('hidden');
-            fullscreenBtn.style.display = 'block';
-        }
+            const GAME_URL = 'https://gamebol.com/gamefile/Ultimate_Car_Driving/index.html';
+            
+            // DOM Elements
+            const elements = {
+                splash: document.getElementById('gameSplash'),
+                frame: document.getElementById('gameFrame'),
+                loading: document.getElementById('gameLoading'),
+                iframe: document.getElementById('gameIframe'),
+                fullscreenBtn: document.getElementById('fullscreenBtn')
+            };
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log('Fullscreen error:', err);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
+            /**
+             * Load the game and update UI state
+             */
+            window.loadGame = function() {
+                // Show loading state
+                elements.loading.classList.add('game-frame__loading--active');
+                
+                // Set iframe source
+                elements.iframe.src = GAME_URL;
+                
+                // Handle iframe load event
+                elements.iframe.onload = function() {
+                    elements.loading.classList.remove('game-frame__loading--active');
+                    elements.frame.classList.add('game-frame--active');
+                    elements.splash.classList.add('game-splash--hidden');
+                    elements.fullscreenBtn.classList.add('btn--fullscreen--visible');
+                };
+
+                // Handle potential load errors
+                elements.iframe.onerror = function() {
+                    elements.loading.classList.remove('game-frame__loading--active');
+                    console.error('Failed to load game');
+                };
+            };
+
+            /**
+             * Toggle fullscreen mode
+             */
+            window.toggleFullscreen = function() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(function(err) {
+                        console.log('Fullscreen error:', err.message || err);
+                    });
+                } else {
+                    document.exitFullscreen().catch(function(err) {
+                        console.log('Exit fullscreen error:', err.message || err);
+                    });
+                }
+            };
+
+            // Handle keyboard accessibility for fullscreen button
+            elements.fullscreenBtn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+            });
+        })();
     </script>
 </body>
 
