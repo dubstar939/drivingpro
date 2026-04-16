@@ -81,6 +81,14 @@
             display: none;
         }
 
+        .game-logo {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-md);
+        }
+
         .game-title {
             font-size: 2rem;
             font-weight: 700;
@@ -290,6 +298,7 @@
 
     <div class="game-container">
         <div class="game-splash" id="gameSplash">
+            <img src="939logo.jpeg" alt="Studio Logo" class="game-logo">
             <h1 class="game-title">Driving Pro</h1>
             <button class="btn btn--play" onclick="loadGame()" type="button">Play Now</button>
         </div>
